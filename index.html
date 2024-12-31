@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт заказа</title>
+    <!-- Подключаем Firebase SDK (старую версию) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Заказ шкафа</h1>
+    <label for="username">Введите ваш ник:</label>
+    <input type="text" id="username" placeholder="Введите ник">
+    <button onclick="placeOrder()">Купить</button>
+
+    <script>
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_ERGnGkhXBLDyvBvrkWB9zeFFCq-PcCM",
+            authDomain: "backup-caa60.firebaseapp.com",
+            databaseURL: "https://backup-caa60-default-rtdb.firebaseio.com",
+            projectId: "backup-caa60",
+            storageBucket: "backup-caa60.firebasestorage.app",
+            messagingSenderId: "117177204790",
+            appId: "1:117177204790:web:e923d6da9653f7f72f5897",
+            measurementId: "G-YZXG21EMTV"
+        };
+
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Функция для размещения заказа
+        function placeOrder() {
+            const username = document.getElementById('username').value;
+            if (!username) {
+                alert("Введите ваш ник!");
+                return;
+            }
+
+            const order = {
+                username: username,
+                item: "Шкаф",
+                timestamp: Date.now()
+            };
+
+            // Ссылка на коллекцию заказов
+            const ordersRef = firebase.database().ref('orders');
+            
+            // Добавление нового заказа в базу данных
+            ordersRef.push(order)
+                .then(() => alert("Заказ успешно размещен!"))
+                .catch((error) => console.error("Ошибка при размещении заказа:", error));
+        }
+    </script>
+</body>
+</html>
